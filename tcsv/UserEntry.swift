@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UserEntry: Identifiable, Codable, Hashable {
+struct UserEntry: Identifiable, Codable, Hashable, Equatable {
     var id: UUID
     var group: String
     var name: String
@@ -18,5 +18,17 @@ struct UserEntry: Identifiable, Codable, Hashable {
         self.group = group
         self.name = name
         self.email = email
+    }
+    
+    static func == (lhs: UserEntry, rhs: UserEntry) -> Bool {
+        return lhs.group == rhs.group &&
+               lhs.name == rhs.name &&
+               lhs.email == rhs.email
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(group)
+        hasher.combine(name)
+        hasher.combine(email)
     }
 }

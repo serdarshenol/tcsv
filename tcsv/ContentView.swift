@@ -98,7 +98,13 @@ struct ContentView: View {
                         if let selectedFile = try? result.get().first,
                            let decoded = FileHelper.readLockedCSV(from: selectedFile) {
                             importedEntries = decoded
-                            entries.append(contentsOf: decoded)
+                            
+                            // Filter out duplicates
+                            let newEntries = decoded.filter { !entries.contains($0) }
+
+                            if !newEntries.isEmpty {
+                                entries.append(contentsOf: newEntries)
+                            }
                         }
                     }
                 }
